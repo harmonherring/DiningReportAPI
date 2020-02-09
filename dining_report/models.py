@@ -11,6 +11,14 @@ class Locations(db.Model):
     noncritical_violations = db.Column(db.Integer, nullable=False)
     critical_violations = db.Column(db.Integer, nullable=False)
 
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "name": self.name,
+            "noncritical_violations": self.noncritical_violations,
+            "critical_violations": self.critical_violations
+        }
+
 
 class Inspections(db.Model):
     id = db.Column(db.Integer, primary_key=True)
