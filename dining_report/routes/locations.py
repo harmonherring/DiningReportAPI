@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify
+from flask_cors import cross_origin
 
 from dining_report.models import Locations
 from dining_report.routes.inspections import filtered_inspections
@@ -7,6 +8,7 @@ location_bp = Blueprint(__name__, 'location_bp')
 
 
 @location_bp.route('/', methods=['GET'])
+@cross_origin(origins="http://localhost:3000")
 def locations():
     all_locations = Locations.query.all()
     return jsonify({
