@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
 
 from dining_report.models import Locations
+from dining_report.routes.inspections import filtered_inspections
 
 location_bp = Blueprint(__name__, 'location_bp')
 
@@ -14,9 +15,9 @@ def locations():
     }), 200
 
 
-@location_bp.route('/<location_id>')
-def get_location(location_id: str):
-    location = Locations.query.filter_by(id=int(location_id)).first()
+@location_bp.route('/<int:location_id>', methods=['GET'])
+def get_location(location_id: int):
+    location = Locations.query.filter_by(id=location_id).first()
     if location:
         return jsonify({
             "status": "success",
@@ -26,3 +27,8 @@ def get_location(location_id: str):
         "status": "error",
         "message": "location does not exist"
     }), 404
+
+
+@location_bp.route('/<int:location_id>/inspections', methods=['GET'])
+def get_location_inspections(location_id: int):
+    return filtered_inspections(location_id)
